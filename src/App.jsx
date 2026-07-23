@@ -3,8 +3,7 @@ import { QueryClientProvider } from '@tanstack/react-query'
 import { queryClientInstance } from '@/lib/query-client'
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import PageNotFound from './lib/PageNotFound';
-import { AuthProvider, useAuth } from '@/lib/AuthContext';
-import UserNotRegisteredError from '@/components/UserNotRegisteredError';
+import { AuthProvider } from '@/lib/AuthContext';
 import ProtectedRoute from '@/components/ProtectedRoute';
 import Login from '@/pages/Login';
 import Register from '@/pages/Register';
@@ -39,25 +38,6 @@ import KPIMachine from '@/pages/KPIMachine';
 import POS from '@/pages/POS';
 
 const AuthenticatedApp = () => {
-  const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
-
-  if (isLoadingPublicSettings || isLoadingAuth) {
-    return (
-      <div className="fixed inset-0 flex items-center justify-center bg-background">
-        <div className="w-8 h-8 border-4 border-muted border-t-primary rounded-full animate-spin"></div>
-      </div>
-    );
-  }
-
-  if (authError) {
-    if (authError.type === 'user_not_registered') {
-      return <UserNotRegisteredError />;
-    } else if (authError.type === 'auth_required') {
-      navigateToLogin();
-      return null;
-    }
-  }
-
   return (
     <Routes>
       <Route path="/book" element={<BookingWizard />} />
@@ -66,29 +46,31 @@ const AuthenticatedApp = () => {
       <Route path="/register" element={<Register />} />
       <Route path="/forgot-password" element={<ForgotPassword />} />
       <Route path="/reset-password" element={<ResetPassword />} />
-      <Route element={<AppLayout />}>
-        <Route path="/" element={<HQDashboard />} />
-        <Route path="/bookings" element={<Bookings />} />
-        <Route path="/parties" element={<Parties />} />
-        <Route path="/events" element={<Events />} />
-        <Route path="/leads" element={<Leads />} />
-        <Route path="/customers" element={<Customers />} />
-        <Route path="/inventory" element={<Inventory />} />
-        <Route path="/staff" element={<StaffHub />} />
-        <Route path="/schools" element={<Schools />} />
-        <Route path="/corporate" element={<Corporate />} />
-        <Route path="/finance" element={<Finance />} />
-        <Route path="/reviews" element={<Reviews />} />
-        <Route path="/knowledge" element={<KnowledgeBase />} />
-        <Route path="/analytics" element={<Analytics />} />
-        <Route path="/social" element={<SocialHub />} />
-        <Route path="/franchise" element={<FranchiseHub />} />
-        <Route path="/executive" element={<ExecutiveDashboard />} />
-        <Route path="/party-charts" element={<PartyCharts />} />
-        <Route path="/stripe" element={<StripeDashboard />} />
-        <Route path="/app-builder" element={<AppBuilder />} />
-        <Route path="/kpi" element={<KPIMachine />} />
-        <Route path="/pos" element={<POS />} />
+      <Route element={<ProtectedRoute />}>
+        <Route element={<AppLayout />}>
+          <Route path="/" element={<HQDashboard />} />
+          <Route path="/bookings" element={<Bookings />} />
+          <Route path="/parties" element={<Parties />} />
+          <Route path="/events" element={<Events />} />
+          <Route path="/leads" element={<Leads />} />
+          <Route path="/customers" element={<Customers />} />
+          <Route path="/inventory" element={<Inventory />} />
+          <Route path="/staff" element={<StaffHub />} />
+          <Route path="/schools" element={<Schools />} />
+          <Route path="/corporate" element={<Corporate />} />
+          <Route path="/finance" element={<Finance />} />
+          <Route path="/reviews" element={<Reviews />} />
+          <Route path="/knowledge" element={<KnowledgeBase />} />
+          <Route path="/analytics" element={<Analytics />} />
+          <Route path="/social" element={<SocialHub />} />
+          <Route path="/franchise" element={<FranchiseHub />} />
+          <Route path="/executive" element={<ExecutiveDashboard />} />
+          <Route path="/party-charts" element={<PartyCharts />} />
+          <Route path="/stripe" element={<StripeDashboard />} />
+          <Route path="/app-builder" element={<AppBuilder />} />
+          <Route path="/kpi" element={<KPIMachine />} />
+          <Route path="/pos" element={<POS />} />
+        </Route>
       </Route>
       <Route path="*" element={<PageNotFound />} />
     </Routes>

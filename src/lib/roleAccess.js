@@ -17,9 +17,19 @@ const ROLE_ACCESS = {
   },
 };
 
+// Applied when a user has no role, or a role string that isn't recognized above.
+// Fails closed rather than granting full access.
+const DEFAULT_ACCESS = { allowed: ["/bookings"] };
+
+function getAccess(role) {
+  if (role && Object.prototype.hasOwnProperty.call(ROLE_ACCESS, role)) {
+    return ROLE_ACCESS[role];
+  }
+  return DEFAULT_ACCESS;
+}
+
 export function canAccessPath(role, path) {
-  if (!role) return true;
-  const access = ROLE_ACCESS[role];
+  const access = getAccess(role);
   if (!access) return true;
   if (access.denied) return !access.denied.includes(path);
   if (access.allowed) return access.allowed.includes(path);
@@ -27,7 +37,6 @@ export function canAccessPath(role, path) {
 }
 
 export function filterNavGroups(role, navGroups) {
-  if (!role) return navGroups;
   return navGroups
     .map((group) => ({
       ...group,
