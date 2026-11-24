@@ -1,0 +1,38 @@
+enum_name,allowed_value
+action_status,Open
+action_status,In progress
+action_status,Closed
+app_role,Director
+app_role,Site Manager
+app_role,Team Leader
+app_role,Staff
+check_result,Pass
+check_result,Fail
+check_result,N/A
+hq_role,owner
+hq_role,ops
+hq_role,lead
+hq_role,staff
+incident_status,Reported
+incident_status,Investigating
+incident_status,Awaiting approval
+incident_status,Closed
+incident_type,Customer accident
+incident_type,Staff accident
+incident_type,Near miss
+incident_type,Safeguarding concern
+incident_type,Equipment failure
+inspection_freq,Daily
+inspection_freq,Weekly
+inspection_freq,Monthly
+priority_level,Critical
+priority_level,High
+priority_level,Medium
+priority_level,Low
+req_status,Unverified
+req_status,In progress
+req_status,Compliant
+req_status,Non-compliant
+req_status,Not applicable
+req_type,Legal
+req_type,Best practice
