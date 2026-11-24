@@ -1,0 +1,9 @@
+[[redirects]]
+  from = "/hq"
+  to = "/"
+  status = 302
+
+[[redirects]]
+  from = "/:page"
+  to = "/index.html"
+  status = 200
